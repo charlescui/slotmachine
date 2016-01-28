@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>数字摇奖老虎机</title>
+<script type="text/javascript" src="js/jquery-1.7.2-min.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<style>
+html,body{margin:0;padding:0;overflow:hidden;}
+body{background:url(images/body_bg.jpg) 0px 0px repeat-x #000;}
+.main_bg{background:url(images/main_bg.jpg) top center no-repeat;height:1000px;}
+.main{width:1000px;height:1000px;position:relative;margin:0 auto;}
+.num_mask{background:url(images/num_mask.png) 0px 0px no-repeat;height:184px;width:740px;position:absolute;left:50%;top:340px;margin-left:-370px;z-index:9;}
+.num_box{height:450px;width:750px;position:absolute;left:50%;top:340px;margin-left:-370px;z-index:8;overflow:hidden;text-align:center;}
+.num{background:url(images/num.png) top center repeat-y;width:181px;height:265px;float:left;margin-right:6px;}
+.btn{background:url(images/btn_start.png) 0px 0px no-repeat;width:264px;height:89px;position:absolute;left:50%;bottom:50px;margin-left:-132px;cursor:pointer;clear:both;}
+.nianhui{text-align:center;color:#fff;padding-top:140px;}
+.nianhui span{font-size:100px;font-weight:900;color:#FF6400;}
+</style>
+</head>
+<body>
+<div class="main_bg">
+  <div class="main">
+    <div id="label" class='nianhui'><span>智屏 2015 公司年会</span></div>
+    <div class="num_mask"></div>
+    <div class="num_box">
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="btn"></div>
+    </div>
+  </div>
+</div>
+<div style="text-align:center;">
+<p><a href="http://www.zhiping.tv/" target="_blank">智屏 2015 公司年会</a></p>
+</div>
+</body>
+</html>
+<script>
+function numRand() {
+	var x = 9999; //上限
+	var y = 1111; //下限
+	var rand = parseInt(Math.random() * (x - y + 1) + y);
+	return rand;
+}
+var isBegin = false;
+$(function(){
+	var u = 265;
+	$('.btn').click(function(){
+		if(isBegin) return false;
+		isBegin = true;
+		$(".num").css('backgroundPositionY',0);
+		var result = 1000;//numRand();
+		console.log('摇奖结果 = '+result);
+		var num_arr = (result+'').split('');
+    // 翻转数组，先显示个位的抽奖结果
+		var arr = jQuery.makeArray($(".num"))
+    arr.reverse();
+    $(arr).each(function(index){
+			var _num = $(this);
+			setTimeout(function(){
+				_num.animate({
+					backgroundPositionY: (u*60) - (u*num_arr[3 - index])
+				},{
+					duration: 6000+index*3000,
+					easing: "easeInOutCirc",
+					complete: function(){
+						if(index==3) isBegin = false;
+					}
+				});
+			}, (index) * 300);
+		});
+	});
+});
+</script>
